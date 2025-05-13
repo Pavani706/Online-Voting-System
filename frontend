@@ -1,1 +1,164 @@
-#
+#login.html
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Voting System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1 style="text-align:center">Login</h1>
+    <form onsubmit="return loginUser()">
+      <input type="text" id="username" placeholder="Username" required /><br /><br />
+      <input type="password" id="password" placeholder="Password" required /><br /><br />
+      <button type="submit">Login</button>
+    </form>
+    <p id="errorMsg" style="color: red;"></p>
+  </div>
+  <script>
+    function loginUser() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Set your desired username/password here
+      const validUsername = "rvrjcce";
+      const validPassword = "1290";
+
+      if (username === validUsername && password === validPassword) {
+        localStorage.setItem("authenticated", "true");
+        window.location.href = "index.html";
+        return false;
+      } else {
+        document.getElementById("errorMsg").textContent = "Invalid credentials!";
+        return false;
+      }
+    }
+  </script>
+</body>
+
+</html>
+
+
+#index.html
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Voting System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="top-banner">
+        <h2 style="text-align:center">RVR and JC College of Engineering</h2>
+    </div>
+
+    <header>
+        <div class="logo">
+            <img src="C:\Users\M PAVANI\Pictures\Screenshots\Screenshot 2025-05-12 014525.png"
+                alt="RVR and JC College Logo" height="80">
+        </div>
+        <h1>Welcome to the College Election Voting System</h1>
+    </header>
+
+    <!-- Registration Form -->
+    <section id="register">
+        <h2 style="text-align:center">Register to Vote</h2>
+        <form id="registrationForm">
+            <input type="text" id="username" placeholder="Enter your name" required><br>
+            <input type="tel" id="phone" placeholder="Enter your 10-digit phone number" pattern="\d{10}" maxlength="10"
+                title="Enter a 10-digit phone number" required><br>
+            <button type="submit">Register</button>
+        </form>
+    </section>
+
+    <!-- Voting Section -->
+    <section id="vote" style="display:none; text-align: center;">
+        <h2>Cast Your Vote</h2>
+        <form id="voteForm">
+            <label style="margin-right: 30px;">
+                <input type="radio" name="candidate" value="Pavani">
+                <strong>Pavani</strong>
+            </label>
+            <label style="margin-right: 30px;">
+                <input type="radio" name="candidate" value="Reehana">
+                <strong>Reehana</strong>
+            </label>
+            <label style="margin-right: 30px;">
+                <input type="radio" name="candidate" value="Christy">
+                <strong>Christy</strong>
+            </label>
+            <br><br>
+            <button type="submit">Vote</button>
+        </form>
+    </section>
+
+    <!-- Results Section (moved outside voteForm) -->
+    <section id="results" style="display:none; text-align: center;">
+        <h2>Voting Results</h2>
+        <p id="resultsPavani" style="margin: 5px;"><strong>Pavani</strong>: 0 votes</p>
+        <p id="resultsReehana" style="margin: 5px;"><strong>Reehana</strong>: 0 votes</p>
+        <p id="resultsChristy" style="margin: 5px;"><strong>Christy</strong>: 0 votes</p>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+#register.html
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Voter Registration</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Register as a Voter</h2>
+        <form id="registerForm">
+            <input type="text" placeholder="Full Name" name="name" required>
+            <input type="text" placeholder="Roll Number" name="rollNumber" required>
+            <input type="email" placeholder="Email" name="email" required>
+            <input type="password" placeholder="Password" name="password" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                name: form.name.value,
+                rollNumber: form.rollNumber.value,
+                email: form.email.value,
+                password: form.password.value
+            };
+            const response = await fetch('http://localhost:5000/api/voters/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            document.getElementById('message').innerText = result.message || result.error;
+        });
+    </script>
+</body>
+
+</html>
+
+#styles.css
+#script.js
